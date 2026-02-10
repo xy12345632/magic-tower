@@ -271,10 +271,7 @@ AI系统的更新间隔默认为100毫秒，确保AI响应及时但不会过快�
 ## 联系方式
 
 如果您有任何问题、建议或想要贡献代码，请通过以下方式联系开发者：
-
-- **项目主页**：https://github.com/yourusername/magic-tower
-- **问题反馈**：https://github.com/yourusername/magic-tower/issues
-- **电子邮件**：support@example.com
+- **电子邮件**：xy12345632@outlook.com
 
 我们欢迎任何形式的贡献，包括代码改进、文档完善、翻译本地化和问题报告。
 
