@@ -29,8 +29,39 @@ class Game:
         
         # 初始化字体
         pygame.font.init()
-        self.font = pygame.font.SysFont('SimHei', 24)
-        self.small_font = pygame.font.SysFont('SimHei', 18)
+        # 明确使用Windows系统中的中文字体文件
+        import os
+        fonts_dir = os.path.join(os.environ.get('WINDIR', 'C:\\Windows'), 'Fonts')
+        
+        # 定义Windows系统中常见的中文字体
+        font_files = [
+            os.path.join(fonts_dir, 'msyh.ttf'),      # 微软雅黑
+            os.path.join(fonts_dir, 'simsun.ttc'),    # 宋体
+            os.path.join(fonts_dir, 'simhei.ttf'),    # 黑体
+            os.path.join(fonts_dir, 'simkai.ttf'),    # 楷体
+            os.path.join(fonts_dir, 'simfang.ttf')    # 仿宋
+        ]
+        
+        # 保存使用的字体文件路径
+        self.font_file = None
+        
+        # 尝试加载中文字体
+        font_loaded = False
+        for font_file in font_files:
+            if os.path.exists(font_file):
+                try:
+                    self.font = pygame.font.Font(font_file, 24)
+                    self.small_font = pygame.font.Font(font_file, 18)
+                    self.font_file = font_file
+                    font_loaded = True
+                    break
+                except Exception as e:
+                    continue
+        
+        # 如果都失败，使用默认字体
+        if not font_loaded:
+            self.font = pygame.font.Font(None, 24)
+            self.small_font = pygame.font.Font(None, 18)
         
         # 存档系统
         self.save_data = {
@@ -452,7 +483,12 @@ class Game:
         self.screen.fill(COLORS['black'])
         
         # 绘制游戏标题
-        title_surface = pygame.font.SysFont('SimHei', 48).render('魔塔传说', True, COLORS['accent'])
+        # 使用与主字体相同的字体文件，确保中文显示一致
+        if self.font_file:
+            title_font = pygame.font.Font(self.font_file, 48)
+        else:
+            title_font = pygame.font.Font(None, 48)
+        title_surface = title_font.render('魔塔传说', True, COLORS['accent'])
         self.screen.blit(title_surface, (SCREEN_WIDTH // 2 - title_surface.get_width() // 2, SCREEN_HEIGHT // 2 - 100))
         
         # 绘制菜单选项
@@ -476,7 +512,12 @@ class Game:
         self.screen.fill(COLORS['black'])
         
         # 绘制游戏标题
-        title_surface = pygame.font.SysFont('SimHei', 36).render('魔塔传说', True, COLORS['accent'])
+        # 使用与主字体相同的字体文件，确保中文显示一致
+        if self.font_file:
+            title_font = pygame.font.Font(self.font_file, 36)
+        else:
+            title_font = pygame.font.Font(None, 36)
+        title_surface = title_font.render('魔塔传说', True, COLORS['accent'])
         self.screen.blit(title_surface, (SCREEN_WIDTH // 2 - title_surface.get_width() // 2, SCREEN_HEIGHT // 2 - 150))
         
         # 绘制版本信息
